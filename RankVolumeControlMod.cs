@@ -13,7 +13,7 @@ namespace RankVolumeControl
         public const string Author = "dave-kun, maintained by Bluscream";
         public const string Company = null;
         public const string Version = "1.2.0";
-        public const string DownloadLink = "https://github.com/Bluscream/RankVolumeControl";
+        public const string DownloadLink = "https://github.com/Bluscream/RankVolumeControl"; 
     }
 
     public class RankVolumeControlMod : MelonMod
