@@ -10,32 +10,34 @@ namespace RankVolumeControl
     public static class BuildInfo
     {
         public const string Name = "RankVolumeControl";
-        public const string Author = "dave-kun";
+        public const string Author = "dave-kun, maintained by Bluscream";
         public const string Company = null;
-        public const string Version = "1.1.0";
-        public const string DownloadLink = "https://github.com/dave-kun/RankVolumeControl";
+        public const string Version = "1.2.0";
+        public const string DownloadLink = "https://github.com/Bluscream/RankVolumeControl";
     }
 
     public class RankVolumeControlMod : MelonMod
     {
 
-        private const string ModCategory = "Rank Volume Control";
+        private static MelonPreferences_Category ModCategory;
         private const string VolumeVisitorPref = "Visitor Volume";
         private const string VolumeNewUserPref = "New User Volume";
         private const string VolumeUserPref = "User Volume";
         private const string VolumeKnownUserPref = "Known User Volume";
         private const string VolumeTrustedUserPref = "Trusted User Volume";
         private const string VolumeFriendPref = "Friend Volume";
+        public static bool ModEnabled => (bool)ModCategory.GetEntry("Enabled").BoxedValue;
 
         public override void OnApplicationStart()
         {
-            MelonPrefs.RegisterCategory(ModCategory, "Rank Volume Control");
-            MelonPrefs.RegisterFloat(ModCategory, VolumeVisitorPref, 1.0f, "Volume for visitors (e.g. between 0.0 and 1.0. Every 0.1 = 10%");
-            MelonPrefs.RegisterFloat(ModCategory, VolumeNewUserPref, 1.0f, "Volume for new users (e.g. between 0.0 and 1.0. Every 0.1 = 10%");
-            MelonPrefs.RegisterFloat(ModCategory, VolumeUserPref, 1.0f, "Volume for users (e.g. between 0.0 and 1.0. Every 0.1 = 10%");
-            MelonPrefs.RegisterFloat(ModCategory, VolumeKnownUserPref, 1.0f, "Volume for known users (e.g. between 0.0 and 1.0. Every 0.1 = 10%");
-            MelonPrefs.RegisterFloat(ModCategory, VolumeTrustedUserPref, 1.0f, "Volume for trusted users (e.g. between 0.0 and 1.0. Every 0.1 = 10%");
-            MelonPrefs.RegisterFloat(ModCategory, VolumeFriendPref, 1.0f, "Volume for friends (e.g. between 0.0 and 1.0. Every 0.1 = 10%");
+            ModCategory = MelonPreferences.CreateCategory("Rank Volume Control", "Rank Volume Control");
+            ModCategory.CreateEntry<bool>("Enabled", true, "Enable Mod (Volumes can be between 0.0 and 1.0. Every 0.1 = 10%");
+            ModCategory.CreateEntry<float>(VolumeVisitorPref, 1.0f, "Visitors");
+            ModCategory.CreateEntry<float>(VolumeNewUserPref, 1.0f, "New users");
+            ModCategory.CreateEntry<float>(VolumeUserPref, 1.0f, "Users");
+            ModCategory.CreateEntry<float>(VolumeKnownUserPref, 1.0f, "Known users");
+            ModCategory.CreateEntry<float>(VolumeTrustedUserPref, 1.0f, "Trusted users");
+            ModCategory.CreateEntry<float>(VolumeFriendPref, 1.0f, "Friends");
             MelonCoroutines.Start(Initialize());
         }
 
@@ -44,7 +46,7 @@ namespace RankVolumeControl
             while (ReferenceEquals(NetworkManager.field_Internal_Static_NetworkManager_0, null))
                 yield return null;
 
-            MelonLogger.Log("Initializing RankVolumeControl.");
+            MelonLogger.Msg($"Initializing RankVolumeControl. Currently {(ModEnabled ? "enabled" : "disabled")}.");
             NetworkManagerHooks.Initialize();
             NetworkManagerHooks.OnJoin += OnPlayerJoined;
         }
@@ -53,12 +55,14 @@ namespace RankVolumeControl
         {
             if (player != null || player.field_Private_APIUser_0 != null)
             {
-                UpdatePlayerVolume(player);
+                if (ModEnabled) UpdatePlayerVolume(player);
             }
         }
 
+        [System.Obsolete]
         public override void OnModSettingsApplied()
         {
+            if (!ModEnabled) return;
             var Players = PlayerManager.field_Private_Static_PlayerManager_0.field_Private_List_1_Player_0;
             for (int i = 0; i < Players.Count; i++)
             {
@@ -72,7 +76,7 @@ namespace RankVolumeControl
 
         private void UpdatePlayerVolume(Player player)
         {
-            float volume = MelonPrefs.GetFloat(ModCategory, GetUserVolumePref(player.field_Private_APIUser_0));
+            var volume = (float)ModCategory.GetEntry(GetUserVolumePref(player.field_Private_APIUser_0)).BoxedValue;
             player.prop_USpeaker_0.field_Private_Single_1 = Mathf.Min(Mathf.Max(volume, 0.00f), 1.0f);
         }
 

@@ -21,7 +21,7 @@ namespace RankVolumeControl
                 AFiredFirst = true;
                 SeenFire = true;
 
-                MelonLogger.Log("[RankVolumeControl] A fired first");
+                // MelonLogger.Msg("[RankVolumeControl] A fired first");
             }
 
             (AFiredFirst ? OnJoin : OnLeave)?.Invoke(player);
@@ -34,7 +34,7 @@ namespace RankVolumeControl
                 AFiredFirst = false;
                 SeenFire = true;
 
-                MelonLogger.Log("[RankVolumeControl] B fired first");
+                // MelonLogger.Msg("[RankVolumeControl] B fired first");
             }
 
             (AFiredFirst ? OnLeave : OnJoin)?.Invoke(player);
