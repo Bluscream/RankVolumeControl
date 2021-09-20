@@ -46,7 +46,7 @@ namespace RankVolumeControl
             while (ReferenceEquals(NetworkManager.field_Internal_Static_NetworkManager_0, null))
                 yield return null;
 
-            MelonLogger.Msg($"Initializing RankVolumeControl. Currently {(ModEnabled ? "enabled" : "disabled")}.");
+            MelonLogger.Msg($"Initializing RankVolumeControl, currently {(ModEnabled ? "enabled" : "disabled")}.");
             NetworkManagerHooks.Initialize();
             NetworkManagerHooks.OnJoin += OnPlayerJoined;
         }
