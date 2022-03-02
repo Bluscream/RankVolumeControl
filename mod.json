@@ -1,18 +1,20 @@
 {
-  "_id": -1,
+  "_id": 262,
   "name": "Rank Volume Control",
-  "modversion": "1.2.0",
-  "vrchatversion": "1132",
-  "loaderversion": "0.4.3+",
+  "modversion": "1.2.1",
+  "vrchatversion": "1170",
+  "loaderversion": "0.5.3",
   "modtype": "Mod",
   "author": "dave-kun, maintained by Bluscream",
   "description": "Allows you to set individual volume levels for different Ranks",
-  "searchtags": ["volume", "ranks", "mute"],
+  "searchtags": [
+    "volume","rank","safety"
+  ],
   "requirements": [
     "[UIExpansionKit](https://api.vrcmg.com/v0/mods/55/UIExpansionKit.dll)"
   ],
-  "downloadlink": "https://github.com/Bluscream/RankVolumeControl/releases/download/1.2.0/RankVolumeControl.dll",
+  "downloadlink": "https://github.com/Bluscream/RankVolumeControl/releases/download/1.2.1/Rank.Volume.Control.dll",
   "sourcelink": "https://github.com/Bluscream/RankVolumeControl",
-  "changelog": "- Resurrected and updated project",
+  "changelog": "Recompile for 1170",
   "embedcolor": ""
 }

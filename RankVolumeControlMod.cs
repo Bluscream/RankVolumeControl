@@ -9,7 +9,7 @@ namespace RankVolumeControl
 
     public static class BuildInfo
     {
-        public const string Name = "RankVolumeControl";
+        public const string Name = "Rank Volume Control";
         public const string Author = "dave-kun, maintained by Bluscream";
         public const string Company = null;
         public const string Version = "1.2.1";
